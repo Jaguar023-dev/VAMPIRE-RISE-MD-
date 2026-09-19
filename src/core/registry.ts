@@ -1,20 +1,21 @@
-// src/core/registry.ts
+import type { WASocket, proto } from '@whiskeysockets/baileys';
+
 export interface CommandContext {
-  sock: any;
-  msg: any;
+  sock: WASocket;
+  msg: proto.IWebMessageInfo;
   jid: string;
   sender: string;
   senderNumber: string;
   isGroup: boolean;
   isDev: boolean;
-  isFromMe: boolean;
+  fromMe: boolean;
   prefix: string;
   command: string;
   args: string[];
   text: string;
   reply: (text: string, mentions?: string[]) => Promise<any>;
   react: (emoji: string) => Promise<any>;
-  quoted: any;
+  quoted?: proto.IMessage | null;
 }
 
 export interface Command {
@@ -27,28 +28,24 @@ export interface Command {
   groupOnly?: boolean;
   privateOnly?: boolean;
   hidden?: boolean;
-  handler: (ctx: CommandContext) => Promise<void>;
+  handler: (ctx: CommandContext) => Promise<any>;
 }
 
-const commands = new Map<string, Command>();
-const byName = new Map<string, Command>();
+const map = new Map<string, Command>();
 
 export function register(cmd: Command) {
-  byName.set(cmd.name.toLowerCase(), cmd);
-  commands.set(cmd.name.toLowerCase(), cmd);
-  if (cmd.aliases) {
-    for (const a of cmd.aliases) commands.set(a.toLowerCase(), cmd);
-  }
+  map.set(cmd.name.toLowerCase(), cmd);
+  for (const a of cmd.aliases || []) map.set(a.toLowerCase(), cmd);
 }
 
 export function getCommand(name: string): Command | undefined {
-  return commands.get(name.toLowerCase());
+  return map.get(name.toLowerCase());
 }
 
-export function getAllCommands(): Command[] {
+export function allCommands(): Command[] {
   const seen = new Set<string>();
   const out: Command[] = [];
-  for (const c of commands.values()) {
+  for (const c of map.values()) {
     if (seen.has(c.name)) continue;
     seen.add(c.name);
     out.push(c);
