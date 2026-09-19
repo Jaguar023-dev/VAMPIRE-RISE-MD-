@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: vampire-rise-md
+    env: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: SESSION_ID
+        sync: false
+      - key: NODE_ENV
+        value: production
