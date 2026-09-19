@@ -1,0 +1,1 @@
+Place startup.mp3 in this folder. If the file is missing the bot will simply skip playback.
