@@ -13,3 +13,4 @@ import './settings';
 import './news';
 import './vampire';
 import './dev';
+import './general';
