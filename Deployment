@@ -1,0 +1,28 @@
+
+---
+
+## 📁 `config/runtime.json` (initial)
+
+```json
+{
+  "prefix": ".",
+  "mode": "private",
+  "banner": "https://files.catbox.moe/9lcczo.jpg",
+  "chatbot": false,
+  "autoviewstatus": false,
+  "autoreadstatus": false,
+  "autodownloadstatus": false,
+  "autoreactstatus": false,
+  "autoreplystatus": false,
+  "autoread": false,
+  "autotyping": false,
+  "autorecording": false,
+  "alwaysonline": false,
+  "anticall": false,
+  "antilink": false,
+  "antispam": false,
+  "antiflood": false,
+  "antidelete": false,
+  "autobio": false,
+  "vars": {}
+}
