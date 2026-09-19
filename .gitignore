@@ -1,0 +1,7 @@
+node_modules
+dist
+.env
+tmp
+session
+*.log
+config/runtime.json
