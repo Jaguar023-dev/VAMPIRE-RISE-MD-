@@ -27,6 +27,7 @@
     "@types/fluent-ffmpeg": "^2.1.26",
     "@types/node": "^20.16.10",
     "ts-node-dev": "^2.0.0",
+    "pino-pretty": "^13.0.0",
     "typescript": "^5.6.2"
   },
   "engines": { "node": ">=18" }
