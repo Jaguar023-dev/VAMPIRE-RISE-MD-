@@ -1,0 +1,4 @@
+{
+  "note": "Commands self-register at runtime. This file only stores per-command enable/disable overrides.",
+  "disabled": []
+}
