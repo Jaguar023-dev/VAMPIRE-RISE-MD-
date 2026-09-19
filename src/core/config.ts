@@ -1,4 +1,3 @@
-// src/core/config.ts
 import fs from 'fs';
 import path from 'path';
 import dotenv from 'dotenv';
@@ -7,7 +6,7 @@ dotenv.config();
 
 const RUNTIME_PATH = path.resolve('config/runtime.json');
 
-interface Runtime {
+export interface Runtime {
   prefix: string;
   mode: 'private' | 'public';
   banner: string;
@@ -22,10 +21,15 @@ interface Runtime {
   autorecording: boolean;
   alwaysonline: boolean;
   anticall: boolean;
+  antilink: boolean;
+  antispam: boolean;
+  antiflood: boolean;
+  antidelete: boolean;
+  autobio: boolean;
   vars: Record<string, any>;
 }
 
-const DEFAULTS: Runtime = {
+export const DEFAULTS: Runtime = {
   prefix: '.',
   mode: 'private',
   banner: 'https://files.catbox.moe/9lcczo.jpg',
@@ -40,21 +44,37 @@ const DEFAULTS: Runtime = {
   autorecording: false,
   alwaysonline: false,
   anticall: false,
+  antilink: false,
+  antispam: false,
+  antiflood: false,
+  antidelete: false,
+  autobio: false,
   vars: {},
+};
+
+export const CONFIG = {
+  BOT_NAME: 'VAMPIRE RISE MD',
+  DEVELOPER: 'KENYAN JAGUAR',
+  DEV_NUMBER: '254115953912',
+  SESSION_ID: process.env.SESSION_ID || '',
+  PORT: parseInt(process.env.PORT || '3000', 10),
+  ALLOWED_PREFIXES: ['.', '!', '#'] as string[],
+  STARTUP_AUDIO: path.resolve('assets/startup.mp3'),
+  TMP_DIR: path.resolve('tmp'),
 };
 
 let runtime: Runtime = { ...DEFAULTS };
 let saveTimer: NodeJS.Timeout | null = null;
 
-export function loadRuntime() {
+export function loadRuntime(): Runtime {
   try {
     if (fs.existsSync(RUNTIME_PATH)) {
       const data = JSON.parse(fs.readFileSync(RUNTIME_PATH, 'utf-8'));
       runtime = { ...DEFAULTS, ...data };
     } else {
-      saveRuntime(true);
+      persist(true);
     }
-  } catch (e) {
+  } catch {
     runtime = { ...DEFAULTS };
   }
   return runtime;
@@ -66,29 +86,25 @@ export function getRuntime(): Runtime {
 
 export function setRuntime(patch: Partial<Runtime>) {
   runtime = { ...runtime, ...patch };
-  saveRuntime();
+  persist();
 }
 
-function saveRuntime(immediate = false) {
-  if (immediate) {
-    fs.mkdirSync(path.dirname(RUNTIME_PATH), { recursive: true });
-    fs.writeFileSync(RUNTIME_PATH, JSON.stringify(runtime, null, 2));
-    return;
-  }
-  if (saveTimer) clearTimeout(saveTimer);
-  saveTimer = setTimeout(() => {
+function persist(immediate = false) {
+  const write = () => {
     try {
       fs.mkdirSync(path.dirname(RUNTIME_PATH), { recursive: true });
       fs.writeFileSync(RUNTIME_PATH, JSON.stringify(runtime, null, 2));
-    } catch {}
-  }, 250);
+    } catch {
+      /* ignore */
+    }
+  };
+  if (immediate) return write();
+  if (saveTimer) clearTimeout(saveTimer);
+  saveTimer = setTimeout(write, 250);
 }
 
-export const CONFIG = {
-  BOT_NAME: 'VAMPIRE RISE MD',
-  DEVELOPER: 'KENYAN JAGUAR',
-  DEV_NUMBER: '254115953912',
-  SESSION_ID: process.env.SESSION_ID || '',
-  PORT: parseInt(process.env.PORT || '3000'),
-  ALLOWED_PREFIXES: ['.', '!', '#'],
-};
+export function ensureDirs() {
+  for (const d of [path.resolve('config'), CONFIG.TMP_DIR]) {
+    if (!fs.existsSync(d)) fs.mkdirSync(d, { recursive: true });
+  }
+}
