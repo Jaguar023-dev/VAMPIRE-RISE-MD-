@@ -1,0 +1,15 @@
+{
+  "web":       { "title": "🌐 WEB / ABOUT",       "order": 1,  "enabled": true },
+  "music":     { "title": "🎵 MUSIC",             "order": 2,  "enabled": true },
+  "updates":   { "title": "📢 UPDATES",           "order": 3,  "enabled": true },
+  "ai":        { "title": "🤖 AI",                "order": 4,  "enabled": true },
+  "sports":    { "title": "⚽ SPORTS",            "order": 5,  "enabled": true },
+  "download":  { "title": "📥 DOWNLOAD",          "order": 6,  "enabled": true },
+  "tools":     { "title": "🛠️ TOOLS",             "order": 7,  "enabled": true },
+  "chat":      { "title": "💬 CHAT",              "order": 8,  "enabled": true },
+  "fun":       { "title": "😂 FUN",               "order": 9,  "enabled": true },
+  "general":   { "title": "🌍 GENERAL",           "order": 10, "enabled": true },
+  "group":     { "title": "👥 GROUP",             "order": 11, "enabled": true },
+  "botinfo":   { "title": "💻 BOT INFO",          "order": 12, "enabled": true },
+  "vampire":   { "title": "🧛 SPECIAL / VAMPIRE", "order": 13, "enabled": true }
+}
