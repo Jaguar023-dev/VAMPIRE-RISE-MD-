@@ -14,3 +14,4 @@ import './news';
 import './vampire';
 import './dev';
 import './general';
+import './privacy';
