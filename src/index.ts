@@ -21,6 +21,9 @@ import { logger, banner } from './utils/logger';
 import { formatUptime } from './utils/helpers';
 import './providers/ai';
 import './providers/news';
+import { attachAntiDelete } from './automation/antidelete';
+import { attachViewOnceForwarder } from './automation/viewonce';
+import { attachAntiGroupMention } from './automation/antigroupmention';
 
 ensureDirs();
 loadRuntime();
@@ -72,9 +75,12 @@ async function start() {
     }
   });
 
-  attachMessageHandler(sock);
+    attachMessageHandler(sock);
   attachStatusAutomation(sock);
   attachPresence(sock);
+  attachAntiDelete(sock);            
+  attachViewOnceForwarder(sock);     
+  attachAntiGroupMention(sock);      
 
   // Anti-call
   sock.ev.on('call', async (calls) => {
