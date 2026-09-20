@@ -26,6 +26,8 @@ export interface Runtime {
   antiflood: boolean;
   antidelete: boolean;
   autobio: boolean;
+  antigroupmention: boolean;
+  autoviewonce: boolean;
   vars: Record<string, any>;
 }
 
@@ -49,6 +51,8 @@ export const DEFAULTS: Runtime = {
   antiflood: false,
   antidelete: false,
   autobio: false,
+  antigroupmention: false,
+ autoviewonce: true,   
   vars: {},
 };
 
